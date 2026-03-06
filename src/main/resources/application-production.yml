@@ -1,0 +1,22 @@
+# Production Profile for Cloud Deployment
+spring:
+  profiles: production
+  cloud:
+    gateway:
+      routes:
+        - id: user-service-prod
+          uri: https://user-service-268672367192.us-central1.run.app
+          predicates:
+            - Path=/api/auth/**, /api/users/**
+            
+        - id: doctor-service-prod
+          uri: https://doctor-service-efc3c5f3xa-uc.a.run.app
+          predicates:
+            - Path=/api/doctors/**, /api/slots/**
+
+logging:
+  level:
+    org.springframework.cloud.gateway: INFO
+    
+server:
+  port: ${PORT:8080}

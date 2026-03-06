@@ -1,0 +1,56 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: api-gateway
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:local}
+  cloud:
+    gateway:
+      routes:
+        # User Service Routes
+        - id: user-service
+          uri: ${USER_SERVICE_URL:http://localhost:8081}
+          predicates:
+            - Path=/api/auth/**, /api/users/**
+          filters:
+            - RewritePath=/api/(?<segment>.*), /api/$\{segment}
+            
+        # Doctor Service Routes  
+        - id: doctor-service
+          uri: ${DOCTOR_SERVICE_URL:http://localhost:8082}
+          predicates:
+            - Path=/api/doctors/**, /api/slots/**
+          filters:
+            - RewritePath=/api/(?<segment>.*), /api/$\{segment}
+      
+      # Global CORS configuration
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOriginPatterns: "*"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - PATCH
+              - OPTIONS
+            allowedHeaders: "*"
+            allowCredentials: true
+
+# Actuator endpoints for health checks
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,gateway
+  endpoint:
+    health:
+      show-details: always
+
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG
+    reactor.netty: INFO
