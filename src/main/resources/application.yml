@@ -11,7 +11,7 @@ spring:
       routes:
         # User Service Routes
         - id: user-service
-          uri: ${USER_SERVICE_URL:http://localhost:8081}
+          uri: ${USER_SERVICE_URL:https://user-service-268672367192.us-central1.run.app}
           predicates:
             - Path=/api/auth/**, /api/users/**
           filters:
@@ -19,7 +19,7 @@ spring:
             
         # Doctor Service Routes  
         - id: doctor-service
-          uri: ${DOCTOR_SERVICE_URL:http://localhost:8082}
+          uri: ${DOCTOR_SERVICE_URL:https://doctor-service-efc3c5f3xa-uc.a.run.app}
           predicates:
             - Path=/api/doctors/**, /api/slots/**
           filters:
