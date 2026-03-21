@@ -26,6 +26,14 @@ spring:
           filters:
             - RewritePath=/api/(?<segment>.*), /api/$\{segment}
 
+        # Payment Service Routes
+        - id: payment-service
+          uri: http://payment-service:8085
+          predicates:
+            - Path=/api/payments/**
+          filters:
+            - RewritePath=/api/(?<segment>.*), /api/$\{segment}
+
       # Global CORS configuration
       globalcors:
         corsConfigurations:
