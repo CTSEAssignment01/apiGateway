@@ -28,7 +28,7 @@ spring:
 
         # Payment Service Routes
         - id: payment-service
-          uri: http://payment-service:8085
+          uri: https://payment-service-78514746924.europe-west1.run.app
           predicates:
             - Path=/api/payments/**
           filters:
